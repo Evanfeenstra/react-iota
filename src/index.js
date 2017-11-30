@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
+import IotaProvider from './lib/IotaProvider'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <IotaProvider>
+    <App />
+  </IotaProvider>,
+document.getElementById('root'));
