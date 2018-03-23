@@ -70,7 +70,8 @@ module.exports = {
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: {
-    main: [paths.appSrc+'/lib']
+    main: [paths.appSrc+'/lib'],
+    wallet: [paths.appSrc+'/wallet']
   },
   output: {
     libraryTarget:'commonjs2',
@@ -123,7 +124,9 @@ module.exports = {
       // { parser: { requireEnsure: false } },
       {
         test: /\.worker\.js$/,
-        use: { loader: 'worker-loader' }
+        use: { loader: 'worker-loader', options: {
+          name: '[name].js'
+        } }
       },
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
@@ -238,7 +241,7 @@ module.exports = {
             // by webpacks internal loaders.
             exclude: [/\.js$/, /\.html$/, /\.json$/],
             options: {
-              name: 'static/media/[name].[hash:8].[ext]',
+              name: 'static/media/[name].[ext]',
             },
           },
           // ** STOP ** Are you adding a new loader?

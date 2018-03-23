@@ -1,14 +1,23 @@
 {
   "name": "react-iota",
-  "version": "0.1.03",
+  "version": "0.1.05",
   "author": "Evan Feenstra",
   "files": [
     "build"
   ],
+  "bin": {
+    "main": "./build/main.js",
+    "wallet": "./build/wallet.js",
+    "worker": "./build/iota.worker.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Evanfeenstra/react-iota.git"
+  },
   "dependencies": {
     "clipboard-polyfill": "^2.4.6",
-    "iota.flash.js": "github:l3wi/iota.flash.js.git",
-    "iota.lib.js": "github:l3wi/iota.lib.js",
+    "iota.flash.js": "0.0.2",
+    "iota.lib.js": "^0.4.7",
     "isomorphic-fetch": "^2.2.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
