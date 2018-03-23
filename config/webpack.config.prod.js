@@ -52,6 +52,17 @@ const cssFilename = 'static/css/[name].[contenthash:8].css';
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
 module.exports = {
+  externals: {
+    'react': 'react',
+    'react-dom': 'react-dom',
+    'iota.flash.js': 'iota.flash.js',
+    'iota.lib.js': 'iota.lib.js',
+    'shortid': 'shortid',
+    'webworker-promise': 'webworker-promise',
+    'isomorphic-fetch': 'isomorphic-fetch',
+    'styled-components': 'styled-components',
+    'clipboard-polyfill': 'clipboard-polyfill'
+  },
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
@@ -59,23 +70,19 @@ module.exports = {
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: {
-    main: [paths.appSrc+'/lib/iota']
+    main: [paths.appSrc+'/lib']
   },
   output: {
+    libraryTarget:'commonjs2',
     // The build folder.
     path: paths.appBuild,
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
     // We don't currently advertise code splitting but Webpack supports it.
     filename: '[name].js',
-    chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+    chunkFilename: 'static/js/[name].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath,
-    // Point sourcemap entries to original disk location (format as URL on Windows)
-    devtoolModuleFilenameTemplate: info =>
-      path
-        .relative(paths.appSrc, info.absoluteResourcePath)
-        .replace(/\\/g, '/'),
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
@@ -114,7 +121,10 @@ module.exports = {
       // TODO: Disable require.ensure as it's not a standard language feature.
       // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
       // { parser: { requireEnsure: false } },
-
+      {
+        test: /\.worker\.js$/,
+        use: { loader: 'worker-loader' }
+      },
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
       {
@@ -267,7 +277,7 @@ module.exports = {
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env.stringified),
     // Minify the code.
-    new webpack.optimize.UglifyJsPlugin({
+    /*new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
         // Disabled because of an issue with Uglify breaking seemingly valid code:
@@ -286,7 +296,7 @@ module.exports = {
         ascii_only: true,
       },
       sourceMap: shouldUseSourceMap,
-    }),
+    }),*/
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     /*new ExtractTextPlugin({
       filename: cssFilename,

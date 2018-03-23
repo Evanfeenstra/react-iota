@@ -1,33 +1,28 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom'
-import './mui.css';
-import './app.css';
-import IotaWallet from './lib/Wallet'
-import Clipboard from 'react-clipboard.js';
-import Form from 'muicss/lib/react/form'
-import Input from 'muicss/lib/react/input'
-import Button from 'muicss/lib/react/button'
+//import ReactDOM from 'react-dom'
+//import './app.css';
+import IotaProvider from './lib'
+import Wallet from './wallet'
+import styled, {injectGlobal} from 'styled-components'
 
-const seeds = [
-  'V9SLUPAIGRIMWZQFRRMZJSCVREPJWRGWWZUDWI9WRELTIHSVDHYNRGWWOFOJZVJXQGKGKSK9MLIBZSGFF',
-  'MXYYKEHWREFHFXC9SWJVTBNPPIAUUUM9XUITFIJEQMITPVME9UBGTYFEMOLYJFQFNVOAAWYFDSMDBZSNL'
-]
+// const seeds = [
+//   'V9SLUPAIGRIMWZQFRRMZJSCVREPJWRGWWZUDWI9WRELTIHSVDHYNRGWWOFOJZVJXQGKGKSK9MLIBZSGFF',
+//   'MXYYKEHWREFHFXC9SWJVTBNPPIAUUUM9XUITFIJEQMITPVME9UBGTYFEMOLYJFQFNVOAAWYFDSMDBZSNL'
+// ]
 
-const spinner = require('./ajax-loader-small.gif')
+// const spinner = require('./ajax-loader-small.gif')
 
 class App extends Component {
 
   render() {
     return (
-      <div className="app">
+      <Body>
 
-        {seeds && seeds.map((s,i)=>
-          <IotaWallet {...this.props} seed={s} key={i}>
-            <Pet />
-          </IotaWallet>
-        )}
+        <IotaProvider {...this.props}>
+          <Wallet />
+        </IotaProvider>
 
-      </div>
+      </Body>
     );
   }
 
@@ -35,7 +30,46 @@ class App extends Component {
 
 export default App
 
-class Pet extends Component {
+injectGlobal`
+  html{
+    height:100%;
+  }
+  body {
+    margin: 0 auto;
+    height:100%;
+    font-family: Avenir, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 100;
+    overflow:hidden;
+  }
+  #root{
+    height:100%;
+  }
+  @font-face {
+    font-family: 'Avenir';
+    src: url('./fonts/regular.ttf');
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: 'Avenir';
+    src: url('./fonts/light.ttf');
+    font-weight: 200;
+  }
+  @font-face {
+    font-family: 'Avenir';
+    src: url('./fonts/medium.ttf');
+    font-weight: 600;
+  }
+`
+
+const Body = styled.div`
+  background:black;
+  padding:30px;
+  height:100%;
+`
+
+/*class Pet extends Component {
 
   constructor(){
     super()
@@ -164,4 +198,4 @@ const X = ({style}) => {
 const Link = ({style}) => {
   return <svg style={style} fill="white" viewBox="0 0 512 512"><g><path d="M256.5,208H256v0C256.2,208,256.3,208,256.5,208z"/><path d="M368.5,160H320c0,0,26,17,31.6,48H368h0.5c17.6,0,31.5,13.9,31.5,31.5v32c0,17.6-13.9,32.5-31.5,32.5h-112   c-17.6,0-32.5-14.9-32.5-32.5V240h-48v31.5c0,11.5,2.5,22.5,6.9,32.5c12.6,28.2,40.9,48,73.6,48h112c44.2,0,79.5-36.3,79.5-80.5   v-32C448,195.3,412.7,160,368.5,160z"/><path d="M329.6,208c-12.1-28.3-40.1-48-73.1-48h-112c-44.2,0-80.5,35.3-80.5,79.5v32c0,44.2,36.3,80.5,80.5,80.5H192   c0,0-25.8-17-32.1-48h-15.4c-17.6,0-32.5-14.9-32.5-32.5v-32c0-17.6,14.9-31.5,32.5-31.5H256h0.5c17.6,0,31.5,13.9,31.5,31.5v32   c0,0.2,0,0.3,0,0.5h48c0-0.2,0-0.3,0-0.5v-32C336,228.3,333.7,217.6,329.6,208z"/></g></svg>
 }
-
+*/
