@@ -108,6 +108,10 @@ module.exports = {
         test: /\.worker\.js$/,
         use: { loader: 'worker-loader' }
       },
+      {
+        test: /\.wasm$/,
+        loaders: ['wasm-loader']
+      },
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
       {

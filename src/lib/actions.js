@@ -1,7 +1,9 @@
 import IOTA from 'iota.lib.js'
+var Mam = require('mam.client.js/lib/mam.web.js')
+
 //import './curl.worker.min.js'
 //import './curl.min.js'
-
+console.log(Mam)
 let iota = null
 
 const actions = {
@@ -10,8 +12,10 @@ const actions = {
     console.log("init IOTA", worker ? "(webworker)" : "(no webworker)")
     iota = new IOTA({provider})
     if(worker){
+        console.log('workerAttachToTangle')
         iota.api.attachToTangle = workerAttachToTangle
     } else if(typeof window !== "undefined"){
+        console.log('localAttachToTangle')
         iota.api.attachToTangle = localAttachToTangle        
     }
     /*self.XMLHttpRequest.prototype.open = async () => {
@@ -67,6 +71,22 @@ const actions = {
     })
   },
 
+  initializeMam: async ({seed}) => window.Mam.init(iota, seed, 9),
+  
+  sendMamMessage: async ({mam, message}) => {
+    console.log(mam, message)
+    var msg = window.Mam.create(mam, message)
+    // Save new mamState
+    //this.setState({mam: message.state})
+    // Attach the payload.
+    console.log('Root: ', msg.root)
+    console.log('Address: ', msg.address)
+    await window.Mam.attach(msg.payload, msg.address)
+
+    // Fetch Stream Async to Test
+    var resp = await window.Mam.fetch(msg.root, 'public', null, console.log)
+    console.log(resp)
+  }
 }
 
 const MAX_TIMESTAMP_VALUE = (Math.pow(3,27) - 1) / 2 // from curl.min.js

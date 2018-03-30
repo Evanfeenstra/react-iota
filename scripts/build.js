@@ -48,7 +48,9 @@ measureFileSizesBeforeBuild(paths.appBuild)
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
     // Merge with the public folder
-    copyPublicFolder();
+    //copyPublicFolder();
+    // Copy curl files
+    copyCurls();
     // Start the webpack build
     return build(previousFileSizes);
   })
@@ -142,9 +144,19 @@ function build(previousFileSizes) {
   });
 }
 
-function copyPublicFolder() {
+/*function copyPublicFolder() {
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
     filter: file => file !== paths.appHtml,
+  });
+}*/
+
+function copyCurls() {
+  console.log(paths.libPath+'/'+paths.curlFile)
+  fs.copySync(paths.libPath+'/'+paths.curlFile, paths.appBuild+'/'+paths.curlFile, {
+    dereference: true,
+  });
+  fs.copySync(paths.libPath+'/'+paths.wurlFile, paths.appBuild+'/'+paths.wurlFile, {
+    dereference: true,
   });
 }

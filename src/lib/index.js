@@ -19,7 +19,8 @@ class IotaProvider extends Component {
       fundingAddressFromTestnet:null,
       initializingFlash:false,
       fundingFlash:false,
-      flash:null
+      flash:null,
+      mam:null
     }
   }
 
@@ -246,6 +247,27 @@ class IotaProvider extends Component {
     }
   }
 
+  initializeMam = async () => {
+    try {
+      const mam = await Iota.initializeMam(this.state.seed)
+      this.setState({mam})
+      return mam
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+
+  sendMamMessage = async (message) => {
+    try {
+      const mam = await Iota.sendMamMessage(this.state.mam, message)
+      return mam
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+
   render() {
     const {children} = this.props
     const childProps = {
@@ -261,7 +283,9 @@ class IotaProvider extends Component {
         sendTrytes: this.sendTrytes,
         initializeFlashChannel: this.initializeFlashChannel,
         fundFlashChannel: this.fundFlashChannel,
-        closeFlashChannel: this.closeFlashChannel
+        closeFlashChannel: this.closeFlashChannel,
+        initializeMam: this.initializeMam,
+        sendMamMessage: this.sendMamMessage,
       },
       utils: utils,
     }

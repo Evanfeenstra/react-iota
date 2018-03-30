@@ -5,6 +5,7 @@ import Send from './send'
 import Input from './comps/input'
 import Button from './comps/button'
 import Flash from './flash'
+import Mam from './mam'
 
 /*
 
@@ -19,15 +20,16 @@ export default class Pet extends Component {
     this.state={
       mode:null,
       flash:false,
+      mam:false,
       seedInput:'',
     }
   }
 
   render() {
     const {iota, actions, utils} = this.props
-    const {balance, addresses, creatingRandom, gettingBalance, gettingAddresses} = iota
+    const {balance, creatingRandom, gettingBalance} = iota
     const isConnected = balance || balance===0
-    let {mode, flash} = this.state
+    let {mode, flash, mam} = this.state
 
     //mode = mode === 'receive' && !addresses ? null : mode
     return (<Wallet>
@@ -56,15 +58,22 @@ export default class Pet extends Component {
             }}>
               <X style={{width:12, height:20, stroke:'white'}} />
             </HeaderFab>
-            <HeaderFab show
+            {this.props.flash && <HeaderFab show
               lineHeight="33px" hideBorder mode={mode}
-              onClick={()=>this.setState({flash:true,mode:null})}>
+              onClick={()=>this.setState({flash:true,mam:false,mode:null})}>
               <Lightning style={{fill:iota.flash?'#38f9d7':'white',height:18}}/>
-            </HeaderFab>
+            </HeaderFab>}
+            {this.props.mam && <HeaderFab show
+              lineHeight="29px" hideBorder mode={mode}
+              onClick={()=>this.setState({mam:true,flash:false,mode:null})}>
+              <Message style={{fill:iota.mam?'#38f9d7':'white',height:13}}/>
+            </HeaderFab>}
           </div>
         </Header>}
 
-        {isConnected && <Flash {...this.props} show={flash} />}
+        {isConnected && this.props.flash && <Flash {...this.props} show={flash} />}
+
+        {isConnected && this.props.mam && <Mam {...this.props} show={mam} />}
 
         {isConnected && <Tabs mode={mode}>
 
@@ -97,6 +106,13 @@ const Lightning = ({style}) => {
   return <svg style={style} viewBox="0 0 512 512">
     <path d="M302.7,64L143,288h95.8l-29.5,160L369,224h-95.8L302.7,64L302.7,64z"/>
   </svg>
+}
+
+const Message = ({style}) => {
+  return <svg style={style} viewBox="0 0 24 24">
+    <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</svg>
 }
 
 const Wallet = styled.div`
@@ -157,7 +173,7 @@ const HeaderFab = styled.div`
   display: inline-block;
   vertical-align: top;
   margin-top:11px;
-  margin-right:13px;
+  margin-right:9px;
   font-size: 9px;
   cursor: ${p=> p.mode==='flash' ? 'default' : 'pointer'};
   pointer-events: ${p=> p.mode==='flash' ? 'none' : 'auto'};

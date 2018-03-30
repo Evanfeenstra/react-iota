@@ -19,7 +19,7 @@ class App extends Component {
       <Body>
 
         <IotaProvider {...this.props}>
-          <Wallet />
+          <Wallet mam />
         </IotaProvider>
 
       </Body>

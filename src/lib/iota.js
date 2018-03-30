@@ -88,6 +88,20 @@ export default class Iota {
     })
   }
 
+  static async initializeMam() {
+    return this.worker.postMessage({
+      cmd: 'initializeMam'
+    })
+  }
+
+  static async sendMamMessage(mamState, message) {
+    return this.worker.postMessage({
+      cmd: 'sendMamMessage',
+      mam: mamState,
+      message: message
+    })
+  }
+
 }
 
 // Get node info
