@@ -3,7 +3,7 @@
 
 React component for interacting with the iota protocol.
 
-![wallet](https://raw.githubusercontent.com/Evanfeenstra/react-iota/master/src/fonts/react-iota-wallet.png)
+<img src="https://raw.githubusercontent.com/Evanfeenstra/react-iota/master/src/fonts/react-iota-wallet.png" height="150" />
 
 ```npm i --save react-iota```
 
