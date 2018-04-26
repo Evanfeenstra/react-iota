@@ -22,8 +22,10 @@ export default class F extends Component {
 
   sendMamMessage = async () => {
     const {actions} = this.props
-    const success = actions.sendMamMessage(this.state.message)
-    console.log('mam component', success)
+    const mamRoot = await actions.sendMamMessage(this.state.message)
+    console.log('sentMamMessage', mamRoot)
+    const res = await actions.fetchMamStream(mamRoot)
+    console.log('fetchedMamStream', res)
   }
 
   render(){

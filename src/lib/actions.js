@@ -71,21 +71,23 @@ const actions = {
     })
   },
 
-  initializeMam: async ({seed}) => window.Mam.init(iota, seed, 9),
+  initializeMam: async ({seed}) => window.Mam.init(iota, seed),
   
   sendMamMessage: async ({mam, message}) => {
-    console.log(mam, message)
     var msg = window.Mam.create(mam, message)
     // Save new mamState
     //this.setState({mam: message.state})
     // Attach the payload.
-    console.log('Root: ', msg.root)
-    console.log('Address: ', msg.address)
+    console.log('Mam Message: ', msg)
     await window.Mam.attach(msg.payload, msg.address)
+    return msg.root
+  },
 
+  fetchMamStream: async ({mamRoot}) => {
     // Fetch Stream Async to Test
-    var resp = await window.Mam.fetch(msg.root, 'public', null, console.log)
+    var resp = await window.Mam.fetch(mamRoot, 'public', null, console.log)
     console.log(resp)
+    return resp
   }
 }
 

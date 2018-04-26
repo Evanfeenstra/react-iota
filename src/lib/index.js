@@ -268,6 +268,16 @@ class IotaProvider extends Component {
     }
   }
 
+  fetchMamStream = async (mamRoot) => {
+    try {
+      const r = await Iota.fetchMamStream(mamRoot)
+      return r
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+
   render() {
     const {children} = this.props
     const childProps = {
@@ -286,6 +296,7 @@ class IotaProvider extends Component {
         closeFlashChannel: this.closeFlashChannel,
         initializeMam: this.initializeMam,
         sendMamMessage: this.sendMamMessage,
+        fetchMamStream: this.fetchMamStream
       },
       utils: utils,
     }

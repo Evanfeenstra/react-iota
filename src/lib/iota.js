@@ -102,6 +102,13 @@ export default class Iota {
     })
   }
 
+  static async fetchMamStream(mamRoot) {
+    return this.worker.postMessage({
+      cmd: 'fetchMamStream',
+      mamRoot: mamRoot,
+    })
+  }
+
 }
 
 // Get node info
